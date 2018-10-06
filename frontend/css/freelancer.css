@@ -3,9 +3,22 @@
  * Copyright 2013-2018 Start Bootstrap
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-freelancer/blob/master/LICENSE)
  */
-
 body {
   font-family: 'Lato';
+}
+
+button.bg-primary:hover, button.bg-primary:focus {
+  background-color: #A9A9A9 !important;
+}
+
+#carouselExampleControls {
+  padding-top: 10%;
+  padding-bottom: 10%;
+  background-color: #FB607F;
+}
+
+.carousel-item {
+  text-align: center;
 }
 
 h1,
@@ -131,9 +144,9 @@ section h2 {
   color: #fff;
 }
 
-#mainNav .navbar-nav li.nav-item a.nav-link.active {
+/* #mainNav .navbar-nav li.nav-item a.nav-link.active {
   color: #18BC9C;
-}
+} */
 
 #mainNav .navbar-toggler {
   font-size: 80%;
@@ -348,11 +361,11 @@ a:focus, a:hover, a:active {
 }
 
 .bg-primary {
-  background-color: #18BC9C !important;
+  background-color: #A9A9A9 !important;
 }
 
 .bg-secondary {
-  background-color: #2C3E50 !important;
+  background-color: #C0C0BD !important;
 }
 
 .text-primary {
