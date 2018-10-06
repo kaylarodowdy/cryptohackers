@@ -43,7 +43,7 @@ App = {
     });
 
     // Load contract data
-    App.contracts.Election.deployed().then(function(instance) {
+    App.contracts.CryptoHackers.deployed().then(function(instance) {
       cryptoHackerInstance = instance;
       return cryptoHackerInstance.hello();
     }).then(function(result) {
