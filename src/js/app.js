@@ -51,13 +51,36 @@ var App = {
         $("#create-crypto-hacker-container").hide();
         App.hackerId = myHackers[0].toNumber();
         cryptoHackerInstance.hackers(App.hackerId).then(function(hacker){
-          console.log("Hacker ");
-          console.log(hacker);
+          $("#dna-temp").text(hacker[0].toNumber());
+          $("#name-temp").text(hacker[1]);
+          $("#gender-temp").text(hacker[2]);
+          $("#lvl-temp").text(hacker[3].toNumber());
+          $("#exp-temp").text(hacker[4].toNumber());
         }); 
 
         cryptoHackerInstance.getHackerSkills(App.hackerId).then(function(skills){
           console.log("Skills ");
           console.log(skills);
+          let i;
+          let skillsTemplate = "<p>"; 
+          for (i = 0; i < skills.length; i++) { 
+              // text += cars[i] + "<br>";
+              console.log(skills[i].toNumber());
+              switch (skills[i].toNumber()) {
+                case 100:
+                  skillsTemplate += "java ";
+                  break; 
+                case 200:
+                  skillsTemplate += "nodejs ";
+                  break;
+                case 300:
+                  skillsTemplate += "python ";
+                  break;
+              }
+          }
+          skillsTemplate += "</p>";
+          
+          $("#skills-temp").html(skillsTemplate);
         }); 
       }
     }).catch(function(error) {
@@ -99,11 +122,6 @@ var App = {
   render: function() {
     let cryptoHackerInstance;
     App.hasPalyerHacker();
-
-    function getRandomInt() {
-      return Math.floor(Math.random() * (9007199254740991 + 9007199254740991 + 1)) - 9007199254740991;
-    }
-    
 
     // Load account data
     web3.eth.getCoinbase(function(err, account) {
@@ -148,24 +166,6 @@ var App = {
       }).catch(function(error) {
         console.warn(error);
       })
-
-      // cryptoHackerInstance.createRandomHacker(name, gender).then(function(receipt)  {
-      //   return cryptoHackerInstance.getOwnedTokens();
-      // }).then(function(myHackers) {
-      //   App.hackerId = myHackers[(myHackers.length - 1)].toNumber();
-      //   console.log(myHackers);
-      //   // App.hackerId = myHackers[(myHackers.length - 1)].toNumber();
-      //   return cryptoHackerInstance.hackers(App.hackerId);
-      // }).then(function(_hacker){
-      //   // var avatar = new Avatars(Avatars.sprites[gender]);
-      //   // var svg = avatar.create(_hacker[0].toNumber());
-      //   $("#player-profile").show();
-      //   // $("#player-profile").append(_hacker[0].toNumber());
-      //   $("#create-crypto-hacker-container").hide();
-      // })
-      // .catch(function(error) {
-      //   console.warn(error);
-      // })
 
       event.preventDefault();
     });
