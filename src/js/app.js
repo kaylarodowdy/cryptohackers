@@ -45,7 +45,7 @@ App = {
     // Load contract data
     App.contracts.CryptoHackers.deployed().then(function(instance) {
       cryptoHackerInstance = instance;
-      return cryptoHackerInstance.hello();
+      return cryptoHackerInstance.mintUniqueHackerTokenTo("Name of Char")
     }).then(function(result) {
       var printHello = $("#hellohacker");
       printHello.html(result);
