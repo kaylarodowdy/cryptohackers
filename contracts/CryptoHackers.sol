@@ -30,7 +30,7 @@ contract CryptoHackers is ERC721Token, Ownable  {
 
     constructor ( string _name, string _symbol) public ERC721Token(_name, _symbol){}
 
-    function _createHacker (string _name, string _gender, uint _randDna) {
+    function _createHacker (string _name, string _gender, uint _randDna)  private {
         Hacker memory _hacker = Hacker(
             {
                 dna: _randDna,
@@ -47,7 +47,7 @@ contract CryptoHackers is ERC721Token, Ownable  {
     }
 
     function _generateRandomDna(string _strValue) private view returns (uint) {
-        uint _rand = keccak256(_strValue);
+        uint _rand = uint(keccak256(_strValue));
         return _rand % dnaModulus;
     }
 
@@ -80,11 +80,11 @@ contract CryptoHackers is ERC721Token, Ownable  {
     //     }
     // }
 
-    function _levelUp(uint _hackerId) {
+    function _levelUp(uint _hackerId) private  {
         hackers[_hackerId].lvl ++;
     }
 
-    function _expUp(uint _hackerId) {
+    function _expUp(uint _hackerId) private {
         hackers[_hackerId].exp = (hackers[_hackerId].exp + 5);
         if(hackers[_hackerId].exp == 20) {
             hackers[_hackerId].exp = 0;
