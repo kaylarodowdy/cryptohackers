@@ -24,6 +24,54 @@
 	<!-- Custom styles for this template -->
 	<link href="css/freelancer.css" rel="stylesheet">
 
+	<!-- Firebase App is always required and must be first -->
+	<script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-database.js"></script>
+	
+	<!-- <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase.js"></script> -->
+	<script>
+	// Initialize Firebase
+	var config = {
+		apiKey: "AIzaSyBPqkpNp92CuBtFIOlhOfWWtzDU2PbOgr0",
+		authDomain: "cryptohackers-da348.firebaseapp.com",
+		databaseURL: "https://cryptohackers-da348.firebaseio.com",
+		projectId: "cryptohackers-da348",
+		storageBucket: "cryptohackers-da348.appspot.com",
+		messagingSenderId: "740822821760"
+	};
+	firebase.initializeApp(config);
+
+	var database = firebase.database();
+
+	var battleEvent = database.ref('/battleRequest');
+	battleEvent.on('value', function(snapshot) {
+		console.log("battleRequest");
+		console.log(snapshot.val());
+	});
+
+	var battleEvent = database.ref('/battleStart');
+	battleEvent.on('value', function(snapshot) {
+		console.log("battleStart");
+		console.log(snapshot.val());
+	});
+
+	function requestBattle(hackerId) {
+		firebase.database().ref('/battleRequest').set({
+			hackerId: hackerId
+		});
+	}
+
+	function startBattle(hackerId) {
+		firebase.database().ref('battleStart').set({
+			hackerId: hackerId
+		});
+	}
+
+
+	
+	</script>
+
+
 </head>
 
 <body id="page-top">
@@ -198,7 +246,7 @@
 		</div>
 		
 		<div class="text-center" style="margin-top:60px">
-			<button type="button" class="btn btn-xl btn-outline-success">Click here to Battle</button>
+			<button id="battleRequest" type="button" class="btn btn-xl btn-outline-success">Click here to Battle</button>
 		</div>
 
 	</section>

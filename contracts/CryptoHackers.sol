@@ -68,9 +68,22 @@ contract CryptoHackers is ERC721Token, Ownable  {
         return ownedTokens[msg.sender];
     }
 
+    function _levelUp(uint _hackerId) private  {
+        hackers[_hackerId].lvl ++;
+    }
+
+    function _expUp(uint _hackerId) private {
+        hackers[_hackerId].exp = (hackers[_hackerId].exp + 5);
+        if(hackers[_hackerId].exp == 20) {
+            hackers[_hackerId].exp = 0;
+            _levelUp(_hackerId);
+        }
+    } 
+
     function learnNewSkill(uint _hackerId, uint _skillId) public {
         require(hackerToOwner[_hackerId] == msg.sender);
         hackerToSkills[_hackerId].push(_skillId); 
+        _expUp(_hackerId);
         emit learnNewSkillEvent(_hackerId);
     }
 
@@ -85,17 +98,7 @@ contract CryptoHackers is ERC721Token, Ownable  {
     //     }
     // }
 
-    function _levelUp(uint _hackerId) private  {
-        hackers[_hackerId].lvl ++;
-    }
-
-    function _expUp(uint _hackerId) private {
-        hackers[_hackerId].exp = (hackers[_hackerId].exp + 5);
-        if(hackers[_hackerId].exp == 20) {
-            hackers[_hackerId].exp = 0;
-            _levelUp(_hackerId);
-        }
-    } 
+   
 
     function battle(uint _hackerId) public {
         _expUp(_hackerId);
