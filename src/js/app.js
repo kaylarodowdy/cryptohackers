@@ -55,7 +55,10 @@ var App = {
           $("#name-temp").text(hacker[1]);
           $("#gender-temp").text(hacker[2]);
           $("#lvl-temp").text(hacker[3].toNumber());
-          $("#exp-temp").text(hacker[4].toNumber());
+          $("#exp-temp").text(hacker[4].toNumber()+"/20");
+          $("#hacker-img").attr("src",`https://avatars.dicebear.com/v2/${hacker[2]}/${hacker[0].toNumber()}.svg`);
+          $("#hacker-img-1").attr("src",`https://avatars.dicebear.com/v2/${hacker[2]}/${hacker[0].toNumber()}.svg`);
+          $("#hacker-img-2").attr("src",`img/sample.svg`);
         }); 
 
         cryptoHackerInstance.getHackerSkills(App.hackerId).then(function(skills){
