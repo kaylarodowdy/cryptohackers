@@ -59,7 +59,6 @@ var App = {
 
     // Callback for creating a hacker
     $("#hacker-form").submit(function( event ) {
-
       let name = $("#name").val();
       let gender = $("#gender").val();
 
@@ -70,6 +69,7 @@ var App = {
         //var svg = avatars.create('')
         console.log("Hacker DNA");
         console.log(hackerDna);
+
       }).catch(function(error) {
         console.warn(error);
       })
