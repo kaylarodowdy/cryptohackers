@@ -61,10 +61,12 @@ var App = {
     $("#hacker-form").submit(function( event ) {
       let name = event.target.name.value.trim().toLowerCase(),
           gender = event.target.name.value.trim().toLowerCase();
+          if (gender == "any") gender = "male"
       cryptoHackerInstance.createRandomHacker(name, gender).then(function(result)  {
         var avatar = new Avatars(Avatars.sprites.male);
-        //var svg = avatars.create('')
+        var svg = avatars.create(getRandomInt())
         console.log(result)
+
       }).catch(function(error) {
         console.warn(error);
       })
