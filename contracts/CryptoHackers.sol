@@ -51,12 +51,14 @@ contract CryptoHackers is ERC721Token, Ownable  {
         return _rand % dnaModulus;
     }
 
-    function createRandomHacker(string _name, string _gender) public {
+    function createRandomHacker(string _name, string _gender) public returns (uint){
         //user can create a hacker only one time
         // require(!creaters[msg.sender]);
         creaters[msg.sender] = true;
         uint _randDna = _generateRandomDna(_name);
         _createHacker(_name, _gender, _randDna);
+
+        return _randDna;
     }
 
     function getOwnedTokens() external view returns (uint256[]) {

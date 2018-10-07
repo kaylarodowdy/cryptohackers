@@ -59,17 +59,22 @@ var App = {
 
     // Callback for creating a hacker
     $("#hacker-form").submit(function( event ) {
-      let name = event.target.name.value.trim().toLowerCase(),
-          gender = event.target.name.value.trim().toLowerCase();
-      cryptoHackerInstance.createRandomHacker(name, gender).then(function(result)  {
-        var avatar = new Avatars(Avatars.sprites.male);
+
+      let name = $("#name").val();
+      let gender = $("#gender").val();
+
+      console.log(name + gender);
+      cryptoHackerInstance.createRandomHacker(name, gender).then(function(receipt)  {
+
+        var avatar = new Avatars(hackerDna);
         //var svg = avatars.create('')
-        console.log(result)
+        console.log("Hacker DNA");
+        console.log(hackerDna);
       }).catch(function(error) {
         console.warn(error);
       })
+
       event.preventDefault();
-    
     });
 
     // App.contracts.CryptoHackers.deployed().then(function(instance) {
