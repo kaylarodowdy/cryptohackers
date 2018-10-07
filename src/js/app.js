@@ -63,12 +63,16 @@ var App = {
           gender = event.target.name.value.trim().toLowerCase();
           if (gender == "any") gender = "male"
       cryptoHackerInstance.createRandomHacker(name, gender).then(function(result)  {
-        var avatar = new Avatars(Avatars.sprites[gender]);
-        var svg = avatar.create(getRandomInt())
         console.log(result)
+        $("#hacker-form").hide()
+        $("#dynamic-form").show()
+        $("#hacker-img").src = `http://avatars.dicebear.com/v2/${gender}/${Math.random()*312321}.svg`;
+        
       }).catch(function(error) {
-        console.warn(error);
-        alert("There was an error creating your hacker")
+        console.log(error)
+        $("#hacker-form").hide()
+        $("#dynamic-form").show()
+        $("#hacker-img").src = `http://avatars.dicebear.com/v2/${gender}/${Math.random()*312321}.svg`;
       })
       event.preventDefault();
     
