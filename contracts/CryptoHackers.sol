@@ -16,7 +16,6 @@ contract CryptoHackers is ERC721Token, Ownable  {
         uint lvl;
         uint exp;
         uint bday;
-        string[] skills;
     }
     // Store hackers
     Hacker[] public hackers; 
@@ -24,7 +23,7 @@ contract CryptoHackers is ERC721Token, Ownable  {
     // Store accounts that have created a hacker one time
     mapping (address => bool) public creaters;
     mapping (uint => address) public hackerToOwner;
-    // mapping (uint => string[]) public hackerToSkills;
+    mapping (uint => uint256[]) public hackerToSkills;
 
     string public hello = "HelloHacker";
 
@@ -38,8 +37,7 @@ contract CryptoHackers is ERC721Token, Ownable  {
                 gender: _gender, 
                 lvl: 1, 
                 exp: 0, 
-                bday: now,
-                skills: new string[](0)
+                bday: now
             });
         
         uint _hackerId = hackers.push(_hacker) - 1;
@@ -66,9 +64,23 @@ contract CryptoHackers is ERC721Token, Ownable  {
 
     function learnNewSkill(uint _hackerId, string _skillName) public {
         require(hackerToOwner[_hackerId] == msg.sender);
-        hackers[_hackerId].skills.push(_skillName);
-        // (hackerToSkills[_hackerId]).push(_skillName); 
+        hackerToSkills[_hackerId].push(uint(keccak256(_skillName))); 
     }
+
+    function getHackerSkills(uint _hackerId) external view returns (uint256[]) {
+        return hackerToSkills[_hackerId];
+    }
+
+    // function hasHackerSkill(uint _hackerId, string _skillName) public returns (bool) {
+    //     uint skillHash = uint(keccak256(_skillName));
+    //     hackerToSkills[_hackerId];
+    //     for (uint i=0; i<arrayLength; i++) {
+            
+    //     }
+    // }
+
+    
+
 }
 
 //TODO: skills, function battlet() 
