@@ -2,6 +2,7 @@ var App = {
   web3Provider: null,
   contracts: {},
   account: '0x0',
+  hackerId: null,
 
   init: function() {
     return App.initWeb3();
@@ -36,7 +37,7 @@ var App = {
 
     function getRandomInt() {
       return Math.floor(Math.random() * (9007199254740991 + 9007199254740991 + 1)) - 9007199254740991;
-  }
+    }
 
     // Load account data
     web3.eth.getCoinbase(function(err, account) {
@@ -65,11 +66,11 @@ var App = {
         gender = "male";
       }
 
-      console.log(name + gender);
       cryptoHackerInstance.createRandomHacker(name, gender).then(function(receipt)  {
         return cryptoHackerInstance.getOwnedTokens();
       }).then(function(myHackers){
-        return cryptoHackerInstance.hackers(myHackers[(myHackers.length - 1)].toNumber());
+        App.hackerId = myHackers[(myHackers.length - 1)].toNumber();
+        return cryptoHackerInstance.hackers(App.hackerId);
       }).then(function(_hacker){
         var avatar = new Avatars(Avatars.sprites[gender]);
         var svg = avatar.create(_hacker[0].toNumber());
@@ -79,6 +80,28 @@ var App = {
       })
 
       event.preventDefault();
+    });
+
+
+    // $("#cplus").click(function( event ) {
+    //   console.log('c++');
+    //   cryptoHackerInstance.learnNewSkill(App.hackerId, "c++").then(function(result){
+    //     console.log("Result");
+    //     console.log(result);
+    //   }).catch(function(error) {
+    //     console.warn(error);
+    //   })
+      
+    // });
+
+    $("#nodejs").click(function( event ) {
+      console.log('nodejs');
+      
+    });
+
+    $("#python").click(function( event ) {
+      console.log('python');
+      
     });
 
     // App.contracts.CryptoHackers.deployed().then(function(instance) {
@@ -91,8 +114,24 @@ var App = {
     // }).catch(function(error) {
     //   console.warn(error);
     // });
-  }
+  },
 
+  hasPalyerHacker: function() {
+    let cryptoHackerInstance;
+
+    App.contracts.CryptoHackers.deployed().then(function(instance) {
+      cryptoHackerInstance = instance;
+      return cryptoHackerInstance.getOwnedTokens();
+    }).then(function(myHackers) {
+      if(myHackers.length == 0) {
+        
+      } else {
+        App.hackerId = myHackers[0].toNumber();
+      }
+    }).catch(function(error) {
+      console.warn(error);
+    });  
+  },
 };
 
 $(function() {
