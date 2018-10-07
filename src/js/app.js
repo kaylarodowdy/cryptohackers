@@ -63,12 +63,12 @@ var App = {
           gender = event.target.name.value.trim().toLowerCase();
           if (gender == "any") gender = "male"
       cryptoHackerInstance.createRandomHacker(name, gender).then(function(result)  {
-        var avatar = new Avatars(Avatars.sprites.male);
-        var svg = avatars.create(getRandomInt())
+        var avatar = new Avatars(Avatars.sprites[gender]);
+        var svg = avatar.create(getRandomInt())
         console.log(result)
-
       }).catch(function(error) {
         console.warn(error);
+        alert("There was an error creating your hacker")
       })
       event.preventDefault();
     
