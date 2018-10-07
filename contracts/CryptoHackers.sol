@@ -17,6 +17,7 @@ contract CryptoHackers is ERC721Token, Ownable  {
         uint exp;
         uint bday;
     }
+
     // Store hackers
     Hacker[] public hackers; 
 
@@ -79,7 +80,21 @@ contract CryptoHackers is ERC721Token, Ownable  {
     //     }
     // }
 
-    
+    function _levelUp(uint _hackerId) {
+        hackers[_hackerId].lvl ++;
+    }
+
+    function _expUp(uint _hackerId) {
+        hackers[_hackerId].exp = (hackers[_hackerId].exp + 5);
+        if(hackers[_hackerId].exp == 20) {
+            hackers[_hackerId].exp = 0;
+            _levelUp(_hackerId);
+        }
+    } 
+
+    function battle(uint _hackerId) public {
+        _expUp(_hackerId);
+    }
 
 }
 
