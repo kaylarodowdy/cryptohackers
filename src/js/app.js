@@ -34,9 +34,18 @@ var App = {
   render: function() {
     var cryptoHackerInstance;
 
-    function getRandomInt() {
-      return Math.floor(Math.random() * (9007199254740991 + 9007199254740991 + 1)) - 9007199254740991;
-  }
+    function createCORSRequest(method, url) {
+      var xhr = new XMLHttpRequest();
+      if ("withCredentials" in xhr) {
+        xhr.open(method, url, true);
+      } else if (typeof XDomainRequest != "undefined") {
+        xhr = new XDomainRequest();
+        xhr.open(method, url);
+      } else {
+        xhr = null;
+      }
+      return xhr;
+    }
 
     // Load account data
     web3.eth.getCoinbase(function(err, account) {
@@ -57,7 +66,6 @@ var App = {
       console.warn(error);
     });
 
-
   //   console.log(result)
   //   $("#hacker-form").hide()
   //   $("#dynamic-form").show()
@@ -76,18 +84,37 @@ var App = {
       if(gender === "any") {
         gender = "male";
       }
-
-      console.log(name + gender);
       cryptoHackerInstance.createRandomHacker(name, gender).then(function(receipt)  {
         return cryptoHackerInstance.getOwnedTokens();
       }).then(function(myHackers){
         return cryptoHackerInstance.hackers(myHackers[(myHackers.length - 1)].toNumber());
       }).then(function(_hacker){
-        var avatar = new Avatars(Avatars.sprites[gender]);
-        var svg = avatar.create(_hacker[0].toNumber());
+        console.log(_hacker)
+        $("#hacker-form").hide()
+        $("#dynamic-form").show()
+        $("#form-title").html( "Something else")
+        dna  = _hacker[0].toNumber()
+        name = _hacker[1]
+        gender =  _hacker[2]
+        level = _hacker[3]
+        exp = _hacker[4]
+        $("#hacker-img").attr("src",`https://avatars.dicebear.com/v2/${gender}/${dna}.svg`);
+
+        // $.ajax(
+        //   {
+        //       url: "https://avatars.dicebear.com/v2/male/12312.svg" ,
+        //       dataType: 'html',
+        //       crossDomain: true,
+        //       type: 'GET',
+        //       success: function(data) 
+        //       {         
+        //         $("#hacker-img").prepend(data);
+        //         console.log(data, _hacker)
+        //       }
+        //   });
       })
       .catch(function(error) {
-        console.warn(error);
+        alert(error)
       })
 
       event.preventDefault();

@@ -50,7 +50,7 @@
 						<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#faqs">Battle</a>
 					</li>
 					<li class="nav-item mx-0 mx-lg-1">
-						<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger">Cryptohackers</a>
+						<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#createhackers">Cryptohackers</a>
 					</li>
 				</ul>
 			</div>
@@ -70,13 +70,16 @@
 	<!-- About Section -->
 	<section class="bg-secondary text-white mb-0" id="createhacker">
 		<div class="container">
-			<h3 class="text-center text-uppercase text-white">Create a Cryptohacker</h3>
+			<h3 id="form-title" class="text-center text-uppercase text-white">Create a Cryptohacker</h3>
 			<!-- <hr class="star-light mb-5"> -->
 			<div class="row">
 				<div style="width: 60%; margin: auto auto;" class="about-p">
 					<div id="dynamic-form" style="display:none;">
 						<img id="hacker-img" i>
-						<h1>Name<h1>
+						<h2>Name: <span id="name-temp"></span><h2>
+						<h3>Gender: <span id="gender-temp"></span></h3>
+						<h3>Level: <span id="date-temp"></span></h3>
+						<h3>Creation Date: <span id="date-temp"></span></h3>
 					</div>
 					<form id="hacker-form">
 						<div class="form-group">
@@ -92,7 +95,8 @@
 									<option value="female">Female</option>
 								</select>
 								</div>
-							<button type="submit" class="btn btn-lg btn-primary float-right">Submit</button>
+								<div  class="text-center"><button type="submit" class="btn btn-lg btn-primary">Submit</button></div>
+							
 						</div>
 					</form>
 				</div>
@@ -173,18 +177,36 @@
 				</div>
 			</div>
 		</div>
-		<button type="button" class="btn btn-xl btn-outline-success">Success</button>
+		<div class="text-center" style="margin-top:60px">
+			<button type="button" class="btn btn-xl btn-outline-success">Learn more..</button>
+		</div>
 	</section>
 
 	<!-- About Section -->
 	<section class="bg-secondary text-white mb-0" id="faqs">
 		<div class="container">
 			<h3 class="text-center text-uppercase text-white">Battle here</h3>
-			<img>Z
 		</div>
+		
+		<div class="text-center">
+			<img src="img/logoanim.gif">
+		</div>
+		
+		<div class="text-center" style="margin-top:60px">
+			<button type="button" class="btn btn-xl btn-outline-success">Click here to Battle</button>
+		</div>
+
+	</section>
+
+
+	<!-- About Section -->
+	<section class="bg-primary text-white mb-0" id="createhackers">
+		<div class="container">
+			<h3 class="text-center text-white">Looks like you don't have any Cryptohackers made..  :(</h3>
 		</div>
 	</section>
 
+	
 	<!-- Footer -->
 	<footer class="footer text-center">
 		<div class="container">
@@ -338,8 +360,8 @@
 		</div>
 	</div>
 
-	<!-- Template for Cryptohackers -->
-	<div class="portfolio-modal mfp-hide" id="portfolio-modal-4">
+	<!-- Template for Battling -->
+	<div class="portfolio-modal mfp-hide" id="portfolio-modal-5">
 		<div class="portfolio-modal-dialog bg-white">
 			<a class="close-button d-none d-md-block portfolio-modal-dismiss" href="#">
 				<i class="fa fa-3x fa-times"></i>
