@@ -58,6 +58,18 @@ var App = {
       console.warn(error);
     });
 
+
+  //   console.log(result)
+  //   $("#hacker-form").hide()
+  //   $("#dynamic-form").show()
+  //   $("#hacker-img").src = `http://avatars.dicebear.com/v2/${gender}/${Math.random()*312321}.svg`;
+    
+  // }).catch(function(error) {
+  //   console.log(error)
+  //   $("#hacker-form").hide()
+  //   $("#dynamic-form").show()
+  //   $("#hacker-img").src = `http://avatars.dicebear.com/v2/${gender}/${Math.random()*312321}.svg`;
+
     // Callback for creating a hacker
     $("#hacker-form").submit(function( event ) {
       let name = $("#name").val();
