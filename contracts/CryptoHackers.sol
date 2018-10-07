@@ -48,7 +48,7 @@ contract CryptoHackers is ERC721Token, Ownable  {
     }
 
     function _generateRandomDna(string _strValue) private view returns (uint) {
-        uint _rand = uint(keccak256(_strValue));
+        uint _rand = keccak256(_strValue);
         return _rand % dnaModulus;
     }
 

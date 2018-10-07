@@ -1,4 +1,4 @@
-App = {
+var App = {
   web3Provider: null,
   contracts: {},
   account: '0x0',
@@ -21,7 +21,7 @@ App = {
   },
 
   initContract: function() {
-    $.getJSON("CryptoHackers.json", function(cryptoHackers) {
+    $.getJSON("/CryptoHackers.json", function(cryptoHackers) {
       // Instantiate a new truffle contract from the artifact
       App.contracts.CryptoHackers = TruffleContract(cryptoHackers);
       // Connect provider to interact with contract
@@ -33,6 +33,10 @@ App = {
 
   render: function() {
     var cryptoHackerInstance;
+
+    function getRandomInt() {
+      return Math.floor(Math.random() * (9007199254740991 + 9007199254740991 + 1)) - 9007199254740991;
+  }
 
     // Load account data
     web3.eth.getCoinbase(function(err, account) {
@@ -49,10 +53,35 @@ App = {
     }).then(function(result) {
       var printHello = $("#hellohacker");
       printHello.html(result);
-
     }).catch(function(error) {
       console.warn(error);
     });
+
+    // Callback for creating a hacker
+    $("#hacker-form").submit(function( event ) {
+      let name = event.target.name.value.trim().toLowerCase(),
+          gender = event.target.name.value.trim().toLowerCase();
+      cryptoHackerInstance.createRandomHacker(name, gender).then(function(result)  {
+        var avatar = new Avatars(Avatars.sprites.male);
+        //var svg = avatars.create('')
+        console.log(result)
+      }).catch(function(error) {
+        console.warn(error);
+      })
+      event.preventDefault();
+    
+    });
+
+    // App.contracts.CryptoHackers.deployed().then(function(instance) {
+    //   cryptoHackerInstance = instance;
+    //   console.log("working")
+    //   return cryptoHackerInstance
+    // }).then(function(result) {
+    //   var printHello = $("#hellohacker");
+    //   printHello.html(result);
+    // }).catch(function(error) {
+    //   console.warn(error);
+    // });
   }
 
 };
