@@ -27,17 +27,83 @@ var App = {
       App.contracts.CryptoHackers = TruffleContract(cryptoHackers);
       // Connect provider to interact with contract
       App.contracts.CryptoHackers.setProvider(App.web3Provider);
-
+      App.listenForHackerCreateEvent();
+      App.listenForLearnNewSkillEvent();
       return App.render();
     });
   },
 
+  hasPalyerHacker: function() {
+
+    console.log("hasPalyerHacker");
+    let cryptoHackerInstance;
+    
+
+    App.contracts.CryptoHackers.deployed().then(function(instance) {
+      cryptoHackerInstance = instance;
+      return cryptoHackerInstance.getOwnedTokens();
+    }).then(function(myHackers) {
+      if(myHackers.length == 0) {
+        $("#create-crypto-hacker-container").show();
+        $("#player-profile").hide();
+      } else {
+        $("#player-profile").show();
+        $("#create-crypto-hacker-container").hide();
+        App.hackerId = myHackers[0].toNumber();
+        cryptoHackerInstance.hackers(App.hackerId).then(function(hacker){
+          console.log("Hacker ");
+          console.log(hacker);
+        }); 
+
+        cryptoHackerInstance.getHackerSkills(App.hackerId).then(function(skills){
+          console.log("Skills ");
+          console.log(skills);
+        }); 
+      }
+    }).catch(function(error) {
+      console.warn(error);
+    });  
+  },
+
+  listenForHackerCreateEvent: function() {
+    App.contracts.CryptoHackers.deployed().then(function(instance){
+      instance.hackerCreatedEvent({}, {
+        fromBlock: 'latest',
+        toBlock: 'latest'
+      }).watch(function(error, event){
+        console.log("event triggered & hacker ID", event.args._hackerId.toNumber());
+        App.hackerId = event.args._hackerId.toNumber();
+        //add toast
+        App.render();
+      });
+    });
+  },
+
+  listenForLearnNewSkillEvent: function() {
+    let cryptoHackerInstance;
+    App.contracts.CryptoHackers.deployed().then(function(instance){
+      cryptoHackerInstance = instance;
+      instance.learnNewSkillEvent({}, {
+        fromBlock: 'latest',
+        toBlock: 'latest'
+      }).watch(function(error, event){
+        console.log("new skill event triggered & hacker ID", event.args._hackerId.toNumber());
+        App.hackerId = event.args._hackerId.toNumber();
+
+        //add toast
+        App.render();
+      });
+    });
+  },
+
   render: function() {
-    var cryptoHackerInstance;
+    let cryptoHackerInstance;
+    App.hasPalyerHacker();
 
     function getRandomInt() {
       return Math.floor(Math.random() * (9007199254740991 + 9007199254740991 + 1)) - 9007199254740991;
     }
+    
 
     // Load account data
     web3.eth.getCoinbase(function(err, account) {
@@ -57,7 +123,6 @@ var App = {
     }).catch(function(error) {
       console.warn(error);
     });
-
 
   //   console.log(result)
   //   $("#hacker-form").hide()
@@ -79,41 +144,83 @@ var App = {
       }
 
       cryptoHackerInstance.createRandomHacker(name, gender).then(function(receipt)  {
-        return cryptoHackerInstance.getOwnedTokens();
-      }).then(function(myHackers){
-        App.hackerId = myHackers[(myHackers.length - 1)].toNumber();
-        return cryptoHackerInstance.hackers(App.hackerId);
-      }).then(function(_hacker){
-        var avatar = new Avatars(Avatars.sprites[gender]);
-        var svg = avatar.create(_hacker[0].toNumber());
-      })
-      .catch(function(error) {
+        
+      }).catch(function(error) {
         console.warn(error);
       })
+
+      // cryptoHackerInstance.createRandomHacker(name, gender).then(function(receipt)  {
+      //   return cryptoHackerInstance.getOwnedTokens();
+      // }).then(function(myHackers) {
+      //   App.hackerId = myHackers[(myHackers.length - 1)].toNumber();
+      //   console.log(myHackers);
+      //   // App.hackerId = myHackers[(myHackers.length - 1)].toNumber();
+      //   return cryptoHackerInstance.hackers(App.hackerId);
+      // }).then(function(_hacker){
+      //   // var avatar = new Avatars(Avatars.sprites[gender]);
+      //   // var svg = avatar.create(_hacker[0].toNumber());
+      //   $("#player-profile").show();
+      //   // $("#player-profile").append(_hacker[0].toNumber());
+      //   $("#create-crypto-hacker-container").hide();
+      // })
+      // .catch(function(error) {
+      //   console.warn(error);
+      // })
 
       event.preventDefault();
     });
 
 
-    // $("#cplus").click(function( event ) {
-    //   console.log('c++');
-    //   cryptoHackerInstance.learnNewSkill(App.hackerId, "c++").then(function(result){
-    //     console.log("Result");
-    //     console.log(result);
-    //   }).catch(function(error) {
-    //     console.warn(error);
-    //   })
-      
-    // });
+    $("#java").click(function( event ) {
+      console.log('java'+ App.hackerId);
+
+      if(App.hackerId > -1) {
+        App.contracts.CryptoHackers.deployed().then(function(instance) {
+          cryptoHackerInstance = instance;
+          return cryptoHackerInstance.learnNewSkill(App.hackerId, 100);
+        }).then(function(result) {
+          console.log("Result");
+          console.log(result);
+        }).catch(function(error) {
+          console.warn(error);
+        });
+      } else {
+        console.log("No Hacker ID");
+      }
+    });
 
     $("#nodejs").click(function( event ) {
-      console.log('nodejs');
-      
+      console.log('nodejs'+ App.hackerId);
+      if(App.hackerId > -1) {
+        App.contracts.CryptoHackers.deployed().then(function(instance) {
+          cryptoHackerInstance = instance;
+          return cryptoHackerInstance.learnNewSkill(App.hackerId, 200);
+        }).then(function(result) {
+          console.log("Result");
+          console.log(result);
+        }).catch(function(error) {
+          console.warn(error);
+        });
+      } else {
+        console.log("No Hacker ID");
+      }
     });
 
     $("#python").click(function( event ) {
-      console.log('python');
-      
+      console.log('python'+ App.hackerId);
+      if(App.hackerId > -1) {
+        App.contracts.CryptoHackers.deployed().then(function(instance) {
+          cryptoHackerInstance = instance;
+          return cryptoHackerInstance.learnNewSkill(App.hackerId, 300);
+        }).then(function(result) {
+          console.log("Result");
+          console.log(result);
+        }).catch(function(error) {
+          console.warn(error);
+        });
+      } else {
+        console.log("No Hacker ID");
+      }
     });
 
     // App.contracts.CryptoHackers.deployed().then(function(instance) {
@@ -126,24 +233,7 @@ var App = {
     // }).catch(function(error) {
     //   console.warn(error);
     // });
-  },
-
-  hasPalyerHacker: function() {
-    let cryptoHackerInstance;
-
-    App.contracts.CryptoHackers.deployed().then(function(instance) {
-      cryptoHackerInstance = instance;
-      return cryptoHackerInstance.getOwnedTokens();
-    }).then(function(myHackers) {
-      if(myHackers.length == 0) {
-        
-      } else {
-        App.hackerId = myHackers[0].toNumber();
-      }
-    }).catch(function(error) {
-      console.warn(error);
-    });  
-  },
+  }
 };
 
 $(function() {

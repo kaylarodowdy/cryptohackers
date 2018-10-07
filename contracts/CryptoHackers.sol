@@ -7,6 +7,9 @@ contract CryptoHackers is ERC721Token, Ownable  {
 
     uint dnaDigits = 20;
     uint dnaModulus = 10 ** dnaDigits;
+
+    event hackerCreatedEvent(uint indexed _hackerId);
+    event learnNewSkillEvent(uint indexed _hackerId);
     
     //Model a hacker
     struct Hacker {
@@ -32,18 +35,19 @@ contract CryptoHackers is ERC721Token, Ownable  {
 
     function _createHacker (string _name, string _gender, uint _randDna)  private {
         Hacker memory _hacker = Hacker(
-            {
-                dna: _randDna,
-                name: _name, 
-                gender: _gender, 
-                lvl: 1, 
-                exp: 0, 
-                bday: now
-            });
+        {
+            dna: _randDna,
+            name: _name, 
+            gender: _gender, 
+            lvl: 1, 
+            exp: 0, 
+            bday: now
+        });
         
         uint _hackerId = hackers.push(_hacker) - 1;
         hackerToOwner[_hackerId] = msg.sender;
         _mint(msg.sender, _hackerId);
+        emit hackerCreatedEvent(_hackerId);
     }
 
     function _generateRandomDna(string _strValue) private view returns (uint) {
@@ -57,7 +61,6 @@ contract CryptoHackers is ERC721Token, Ownable  {
         creaters[msg.sender] = true;
         uint _randDna = _generateRandomDna(_name);
         _createHacker(_name, _gender, _randDna);
-
         return _randDna;
     }
 
@@ -65,9 +68,10 @@ contract CryptoHackers is ERC721Token, Ownable  {
         return ownedTokens[msg.sender];
     }
 
-    function learnNewSkill(uint _hackerId, string _skillName) public {
+    function learnNewSkill(uint _hackerId, uint _skillId) public {
         require(hackerToOwner[_hackerId] == msg.sender);
-        hackerToSkills[_hackerId].push(uint(keccak256(_skillName))); 
+        hackerToSkills[_hackerId].push(_skillId); 
+        emit learnNewSkillEvent(_hackerId);
     }
 
     function getHackerSkills(uint _hackerId) external view returns (uint256[]) {
@@ -78,7 +82,6 @@ contract CryptoHackers is ERC721Token, Ownable  {
     //     uint skillHash = uint(keccak256(_skillName));
     //     hackerToSkills[_hackerId];
     //     for (uint i=0; i<arrayLength; i++) {
-            
     //     }
     // }
 
