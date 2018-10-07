@@ -61,16 +61,20 @@ var App = {
     $("#hacker-form").submit(function( event ) {
       let name = $("#name").val();
       let gender = $("#gender").val();
+      if(gender === "any") {
+        gender = "male";
+      }
 
       console.log(name + gender);
       cryptoHackerInstance.createRandomHacker(name, gender).then(function(receipt)  {
-
-        var avatar = new Avatars(hackerDna);
-        //var svg = avatars.create('')
-        console.log("Hacker DNA");
-        console.log(hackerDna);
-
-      }).catch(function(error) {
+        return cryptoHackerInstance.getOwnedTokens();
+      }).then(function(myHackers){
+        return cryptoHackerInstance.hackers(myHackers[(myHackers.length - 1)].toNumber());
+      }).then(function(_hacker){
+        var avatar = new Avatars(Avatars.sprites[gender]);
+        var svg = avatar.create(_hacker[0].toNumber());
+      })
+      .catch(function(error) {
         console.warn(error);
       })
 
