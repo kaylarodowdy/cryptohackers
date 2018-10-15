@@ -22,7 +22,7 @@ var App = {
   },
 
   initContract: function() {
-    $.getJSON("/CryptoHackers.json", function(cryptoHackers) {
+    $.getJSON("CryptoHackers.json", function(cryptoHackers) {
       // Instantiate a new truffle contract from the artifact
       App.contracts.CryptoHackers = TruffleContract(cryptoHackers);
       // Connect provider to interact with contract
