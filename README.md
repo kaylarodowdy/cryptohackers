@@ -1,9 +1,7 @@
-# [CryptoHackers](https://devpost.com/software/cryptohackers) - [Hack Duke 2018](https://hacknc2018.devpost.com/)
+# [CryptoHackers](https://devpost.com/software/cryptohackers) - [HackNC 2018](https://hacknc2018.devpost.com/)
 
 ## Best Ethereum Smart Contract/Decentralized Application at HackNC
 ## The Wolfram Award at HackNC
-
-![](https://github.com/BubbaJoe/BigFatCharity/raw/master/package.json)
 
 ## How to run the Website Locally
 
